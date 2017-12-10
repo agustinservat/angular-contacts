@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Contacts</title>
+
+</head>
+
+<body>
+
+    <div class="container">
+      <div class="header-bar">
+        <h2>Contacts</h2>
+      </div>
+
+    <div class="container">
+      <div class="row" ng-repeat="(setKey, set) in contacts | orderBy: '!isFavorite' | groupBy:'isFavorite'">
+
+        <div class="section-bar" ng-show="{{ setKey }}" >
+          <span>favorite contacts</span>
+        </div>
+
+        <div class="section-bar" ng-hide="{{ setKey }}" >
+          <span>other contacts</span>
+        </div>
+
+        <li class="contacts-row" ng-repeat="item in set | orderBy: 'name'">
+          <div class="contacts-content" ng-click="itemSelected(item)">
+            <img class="contacts-avatar" ng-src="{{item.smallImageURL}}" on-error-src="{{urlUserSmall}}"/>
+            <div ng-show="{{item.isFavorite}}">
+              <img ng-src="{{urlStarTrue}}" class="favorite-true" />
+            </div>
+            <div class="contacts-information">
+              <div class="name">{{item.name}}</div>
+              <div class="company">{{item.companyName}}</div>
+            </div>
+          </div>
+          <div class="separator"></div>
+        </li>
+
+    </div>
+  </div>
+
+
+    </div>
+</body>
+</html>

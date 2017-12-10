@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Contacts</title>
+
+</head>
+
+<body>
+    <div class="container">
+      <div class="header-detail">
+          <button class="button-contacts" back >
+            <div class="arrow-left"></div>
+            Contacts
+          </button>
+          <div ng-click="updateItem()">
+            <div ng-if="contactSelected.isFavorite">
+              <img ng-src="{{urlStarTrue2x}}"/>
+            </div>
+            <div ng-if="!contactSelected.isFavorite">
+              <img ng-src="{{urlStarFalse2x}}" />
+            </div>
+        </div>
+      </div>
+
+    <div class="container">
+
+        <div class="contact-information">
+            <img class="contact-avatar" src="{{contactSelected.largeImageURL}}" on-error-src="{{urlUserLarge}}"/>
+            <div class="name">{{contactSelected.name}}</div>
+            <div class="company">{{contactSelected.companyName}}</div>
+        </div>
+        <div class="separator"></div>
+        <div>
+            <div class="details-field" ng-show="{{contactSelected.phone.home}}">
+                <div class="details-up">Phone</div>
+                <div class="details-phone">
+                  <div class="details-data">{{contactSelected.phone.home}}</div>
+                  <div class="details-down">Home</div>
+                </div>
+                <div class="separator"></div>
+            </div>
+            <div class="details-field" ng-show="{{contactSelected.phone.mobile}}">
+              <div class="details-up">Phone</div>
+              <div class="details-phone">
+                <div class="details-data">{{contactSelected.phone.mobile}}</div>
+                <div class="details-down">mobile</div>
+              </div>
+              <div class="separator"></div>
+            </div>
+            <div class="details-field" ng-show="{{contactSelected.phone.work}}">
+              <div class="details-up">Phone</div>
+              <div class="details-phone">
+                <div class="details-data">{{contactSelected.phone.work}}</div>
+                <div class="details-down">work</div>
+              </div>
+              <div class="separator"></div>
+            </div>
+            <div class="details-field" ng-show="{{contactSelected.address}}">
+              <div class="details-up">address</div>
+              <div class="details-row">
+                <div class="details-data">{{contactSelected.address.street}}</div>
+                <div class="details-data">{{contactSelected.address.city}}, {{contactSelected.address.zipCode}}, {{contactSelected.address.country}}</div>
+              </div>
+              <div class="separator"></div>
+            </div>
+            <div class="details-field" ng-show="{{contactSelected.birthdate}}">
+              <div class="details-up">birthdate</div>
+              <div class="details-row">
+                <div class="details-data">{{contactSelected.birthdate  | date:"MMMM dd, yyyy"}}</div>
+              </div>
+              <div class="separator"></div>
+            </div>
+            <div class="details-field" ng-href="{{contactSelected.emailAddress}}">
+              <div class="details-up">email</div>
+              <div class="details-row">
+                <div class="details-data">{{contactSelected.emailAddress}}</div>
+              </div>
+              <div class="separator"></div>
+            </div>
+        </div>
+  </div>
+  </div>
+</body>
+</html>
