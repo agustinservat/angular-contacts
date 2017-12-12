@@ -3,7 +3,9 @@
 angular.module('myApp.contacts', ['ngRoute', 'angular.filter'])
 
 .controller('ContactsCtrl', ['$scope', '$http', '$location', '$rootScope', '$window',function($scope, $http, $location, $rootScope, $window) {
-  ($rootScope.contacts) ? $rootScope.contacts :  $rootScope.contacts = null;
+  // ($rootScope.contacts) ? $rootScope.contacts :  $rootScope.contacts = null;
+  $scope.contacts = [];
+  $scope.contactSelected = [];
   $scope.url = 'https://s3.amazonaws.com/technical-challenge/v3/contacts.json';
   $scope.urlStarTrue = '../public/assets/favorite_star_true/favorite-true.png';
   $scope.urlStarTrue2x = '../public/assets/favorite_star_true/favorite-true2x.png';
@@ -16,21 +18,16 @@ angular.module('myApp.contacts', ['ngRoute', 'angular.filter'])
       sessionStorage.removeItem("contactSelected");
       // sessionStorage.clear();
   }
-  var contactSelected = JSON.parse(sessionStorage.getItem("contactSelected"));
-  if($rootScope.contactSelected == null || typeof $rootScope.contactSelected === 'undefined'){
-    $rootScope.contactSelected = contactSelected;
-  }
-  var contacts = JSON.parse(sessionStorage.getItem("contacts"));
-  if($rootScope.contacts == null || typeof $rootScope.contacts === 'undefined'){
-    $rootScope.contacts = contacts;
-  }
+  $scope.contactSelected = JSON.parse(sessionStorage.getItem("contactSelected"));
+
+  $scope.contacts = JSON.parse(sessionStorage.getItem("contacts"));
 
   angular.element(document).ready(function () {
     $window.scrollTo(0, 0);
-    if($rootScope.contacts == null){
+    if($scope.contacts == null || typeof $scope.contacts === 'undefined'){
       $http.get($scope.url)
                     .success(function(data) {
-                        $rootScope.contacts = data;
+                        $scope.contacts = data;
                         sessionStorage.setItem("contacts", JSON.stringify(data));
                     })
                     .error(function(data) {
@@ -42,18 +39,17 @@ angular.module('myApp.contacts', ['ngRoute', 'angular.filter'])
   });
 
   $scope.itemSelected = function(item){
-
+    $scope.contactSelected = item;
     sessionStorage.setItem("contactSelected", JSON.stringify(item));
-    $rootScope.contactSelected = item;
     $location.path('/contact');
   }
 
   $scope.updateItem = function(){
-    var arrayIndex = $rootScope.contacts.findIndex((obj => obj.id == $rootScope.contactSelected.id));
-    $rootScope.contacts[arrayIndex].isFavorite = !$rootScope.contacts[arrayIndex].isFavorite;
-    $rootScope.contactSelected = $rootScope.contacts[arrayIndex];
-    sessionStorage.setItem("contacts", JSON.stringify($rootScope.contacts));
-    sessionStorage.setItem("contactSelected", JSON.stringify($rootScope.contacts[arrayIndex]));
+    var arrayIndex = $scope.contacts.findIndex((obj => obj.id == $scope.contactSelected.id));
+    $scope.contacts[arrayIndex].isFavorite = !$scope.contacts[arrayIndex].isFavorite;
+    $scope.contactSelected = $scope.contacts[arrayIndex];
+    sessionStorage.setItem("contacts", JSON.stringify($scope.contacts));
+    sessionStorage.setItem("contactSelected", JSON.stringify($scope.contacts[arrayIndex]));
   }
 
 }]);
